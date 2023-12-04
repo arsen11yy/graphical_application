@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QDialog, QMessageBox
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSlot
+from data_processing_lib.data_processor import validate_input, show_error_dialog
 
 class Dialog(QDialog):
     def __init__(self, *args, **kwargs):
@@ -12,7 +13,7 @@ class Dialog(QDialog):
             int(value)
             return True
         except ValueError:
-            self.show_error_dialog("Ошибка ввода", f"Параметр {boundary_name} должен быть целым числом.")
+            show_error_dialog("Ошибка ввода", f"Параметр {boundary_name} должен быть целым числом.")
             return False
 
     def show_error_dialog(self, title, message):
@@ -27,7 +28,7 @@ class Dialog(QDialog):
         a = self.lineEditA.text()
         b = self.lineEditB.text()
 
-        if not (self.validate_input(a, "A") and self.validate_input(b, "B")):
+        if not (validate_input(a, "A") and validate_input(b, "B")):
             return
 
         a, b = int(a), int(b)
